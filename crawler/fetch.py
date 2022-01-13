@@ -16,11 +16,11 @@ class InsertIntoDb:
         """connect to database and insert into a table data that is fetch from 'fetch_data' function. """
         try:
             cnn = psycopg2.connect(host='localhost', dbname='postgres', user='postgres', password='')
-            # builfing a cursor
+            # building a cursor
             cur = cnn.cursor()
             data = self.fetch_data()
             keys_list = list(data.keys())
-            # for every elements get price and detail values in order to insert them into  database.
+            # for every elements get price and detail values in order to insert them into the database.
             for n,d in enumerate(data.values()):
                 
                 rooms = d['detail_list'][1] 
@@ -28,9 +28,13 @@ class InsertIntoDb:
                 year_of_construction = d['detail_list'][-1]
                 price = d['price']
                 id = int(keys_list[n])
-                cur.execute('INSERT INTO houses(id, rooms, space, year_of_construction, price)\
-                VALUES (%s ,%s, %s, %s, %s)',(id, rooms, space, year_of_construction, price))
-                    
+                try:
+                    # execute sql command
+                    cur.execute('INSERT INTO houses(id, rooms, space, year_of_construction, price)\
+                    VALUES (%s ,%s, %s, %s, %s)',(id, rooms, space, year_of_construction, price))
+                # if key already exist continue looping.
+                except (Exception):
+                    continue
             cnn.commit()
             cur.close()
         except (Exception, psycopg2.DatabaseError) as err:
@@ -38,6 +42,7 @@ class InsertIntoDb:
         finally:
             if cnn is not None:
                 cnn.close()
+
     def fetch_data(self):
         """fetches data using request's get method and pass all the page source  in the Beautiful soup module,
         to get elements with specfic class."""

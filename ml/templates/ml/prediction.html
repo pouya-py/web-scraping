@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>{% block title %}پیش‌بینی قیمت خانه شما{% endblock %}</title>
+</head>
+<body>
+    <div class="container text-right mt-5">
+        <h2>:پیش‌بینی قیمت خانه بر اساس داده‌های بدست آمده از وب‌سایت
+        </h2>
+        <h4><a href="https://shabesh.com/search/%D8%AE%D8%B1%DB%8C%D8%AF-%D9%81%D8%B1%D9%88%D8%B4/%D8%A2%D9%BE%D8%A7%D8%B1%D8%AA%D9%85%D8%A7%D9%86/%DA%A9%D8%B1%D9%85%D8%A7%D9%86%D8%B4%D8%A7%D9%87" class="">shobesh.com</a></h4>
+        <br><br>
+        <p><span>:</span> اطلاعات خانه‌ی خود را وارد کنید</p>
+        <div>
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                {{field}}
+                <label for="{{field.label}}">:{{field.label_tag}}</label>
+                {{field.errors}}
+            {% endfor %}
+            <br>
+            <input type="submit" value="پیش‌بینی قیمت" class="btn btn-light border">
+        </div>
+        {% if price %}
+        <hr>
+        <p>  :حدود قیمت خانه شما برا اساس داده‌های زیر </p>
+        <ul class="" style="display:inline-block;vertical-align:middle;list-style-type: None;padding: 0;margin: 0;">
+            <li>{{rooms}} :خواب</li>
+            <li>{{space}} :متراژ </li>
+            <li>{{year_of_construction}} :سال ساخت</li>
+        </ul>
+        <br>
+        
+        <h5 class="text-white bg-dark mt-3">{{ price }} :قیمت</h5>
+        {% endif %}
+
+        
+    </div>
+        <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
