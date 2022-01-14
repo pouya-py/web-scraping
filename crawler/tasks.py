@@ -2,6 +2,7 @@ import psycopg2
 import requests
 from bs4 import BeautifulSoup
 import re
+from celery import shared_task
 
 
 class InsertIntoDb:
@@ -11,7 +12,8 @@ class InsertIntoDb:
     def __init__(self,
         request_url = 'https://shabesh.com/search/%D8%AE%D8%B1%DB%8C%D8%AF-%D9%81%D8%B1%D9%88%D8%B4/%D8%A2%D9%BE%D8%A7%D8%B1%D8%AA%D9%85%D8%A7%D9%86/%DA%A9%D8%B1%D9%85%D8%A7%D9%86%D8%B4%D8%A7%D9%87'):
         self.request_url = request_url
-
+    
+    # using this to automatically run this function when django loads.
     def connect_to_db(self):
         """connect to database and insert into a table data that is fetch from 'fetch_data' function. """
         try:
@@ -74,6 +76,17 @@ class InsertIntoDb:
                 return None
         return data
     
+@shared_task
+def insert_to_db_task():
+    InsertIntoDb.connect_to_db()
+    return 
+# insert_into_db = InsertIntoDb()
+# insert_into_db.connect_to_db()
 
-insert_into_db = InsertIntoDb()
-insert_into_db.connect_to_db()
+@shared_task
+def add(a,b):
+    print(a+b) 
+
+insert_to_db_task.delay()
+# add.delay(1,2)
+

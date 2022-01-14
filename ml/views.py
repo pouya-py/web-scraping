@@ -4,7 +4,9 @@ from .machine_learning import predict
 # Create your views here.
 
 def predict_price(request):
+    
     """a view to get user input and predict price base on what is machine learned."""
+
     predicted_price = None
     rooms,space,y_of_cons = None,None,None
     form = input_form(request.GET)
