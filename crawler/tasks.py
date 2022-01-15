@@ -21,6 +21,7 @@ class InsertIntoDb:
             # building a cursor
             cur = cnn.cursor()
             data = self.fetch_data()
+            # list of keys
             keys_list = list(data.keys())
             # for every elements get price and detail values in order to insert them into the database.
             for n,d in enumerate(data.values()):
@@ -33,7 +34,8 @@ class InsertIntoDb:
                 try:
                     # execute sql command
                     cur.execute('INSERT INTO houses(id, rooms, space, year_of_construction, price)\
-                    VALUES (%s ,%s, %s, %s, %s)',(id, rooms, space, year_of_construction, price))
+                    VALUES (%s ,%s, %s, %s, %s);',(id, rooms, space, year_of_construction, price))
+
                 # if key already exist continue looping.
                 except (Exception):
                     continue
@@ -78,15 +80,15 @@ class InsertIntoDb:
     
 @shared_task
 def insert_to_db_task():
-    InsertIntoDb.connect_to_db()
-    return 
+    instance = InsertIntoDb()
+    instance.connect_to_db()
+    return
+     
 # insert_into_db = InsertIntoDb()
 # insert_into_db.connect_to_db()
 
-@shared_task
-def add(a,b):
-    print(a+b) 
-
+# @shared_task
+# def add(a,b):
+#     return a+b
 insert_to_db_task.delay()
-# add.delay(1,2)
 

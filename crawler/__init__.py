@@ -1,4 +1,4 @@
-from .celery import app as celery_app
+from .celery_inst import app as celery_app
 
 
 # this ensure that whenever django website load up it will load celery too.
