@@ -22,29 +22,33 @@ def query_database():
 
     """connect to and query the database
      and split 'price'=Y with other column and return them."""
-
-    cnn = psycopg2.connect(host='localhost', dbname='postgres', user='postgres', password='')
-    cur = cnn.cursor()
-    
     try:
-        # X data are the rooms,space,year_of_constructions 
-        # Y data is price of them.
-        cur.execute('SELECT rooms, space, year_of_construction FROM houses')
-        X =  cur.fetchall()
-        cur.execute('SELECT price FROM houses')
-        Y = cur.fetchall()
-        cur.close()
-        # print(X)
-        # print(Y)
-        X = [[*x] for x in X]
-        Y = [[*y] for y in Y]
-    except psycopg2.DatabaseError:
-        X , Y = None, None
+        cnn = psycopg2.connect(host='localhost', dbname='postgres', user='postgres', password='')
+        cur = cnn.cursor()
+        
+        try:
+            # X data are the rooms,space,year_of_constructions 
+            # Y data is price of them.
+            cur.execute('SELECT rooms, space, year_of_construction FROM houses')
+            X =  cur.fetchall()
+            cur.execute('SELECT price FROM houses')
+            # prices column
+            Y = cur.fetchall()
+    
+            cur.close()
+            # print(X)
+            # print(Y)
+            X = [[*x] for x in X]
+            Y = [[*y] for y in Y]
+        except psycopg2.DatabaseError:
+            X , Y = None, None
+    except (Exception,psycopg2.DatabaseError) as err:
+        return None
+
     finally:
         if cnn is not None:
             cnn.close()
+            return X,Y
 
-        return X,Y
 
-
-# predict([[2,112,1394]])
+# print(predict([[2,35,1344]]))
