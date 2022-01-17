@@ -5,5 +5,5 @@ from . import views
 
 app_name = 'ml'
 urlpatterns = [
-    path('predict/', views.predict_price, name='prediction')
+    path('', views.predict_price, name='prediction')
 ]
